@@ -16,12 +16,12 @@ class DocumentoItensDetail extends Component {
                 if (index <= 3) {
                     return (
                         <View key={index} style={styles.primaryView}>
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 0.8 }}>
                                 <Text style={[styles.textStyle, { color: '#EE8215' }]}>
                                     {itemPurchase.fornec}
                                 </Text>
                             </View>
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 0.8 }}>
                                 <Text style={[styles.textStyle, { color: '#EE8215' }]}>
                                     {itemPurchase.price}
                                 </Text>
@@ -84,10 +84,10 @@ class DocumentoItensDetail extends Component {
                     </View>
                     <View style={styles.highOneView}>
                         <View style={styles.primaryView}>
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 0.8 }}>
                                 <Text style={styles.textStyle}>Fornec</Text>
                             </View>
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 0.8 }}>
                                 <Text style={styles.textStyle}>Preço</Text>
                             </View>
                             <View style={{ flex: 0.5 }}>

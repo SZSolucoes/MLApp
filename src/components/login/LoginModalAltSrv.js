@@ -55,8 +55,17 @@ class LoginModalAltSrv extends Component {
     
     onPressSalvar() {
         if (this.props.urlServer) {
-            AsyncStorage.setItem('urlServer', this.props.urlServer)
-            .then(() => this.setUrlServer(this.props.urlServer))
+            const protocol = this.props.urlServer.substr(0, 4); 
+            let urlServer = '';
+
+            if (protocol.toLowerCase() !== 'http') {
+                urlServer = `http://${this.props.urlServer}`;        
+            } else {
+                urlServer = this.props.urlServer;
+            }
+            
+            AsyncStorage.setItem('urlServer', urlServer)
+            .then(() => this.setUrlServer(urlServer))
             .catch(() => (
                 Alert.alert('Erro ao salvar', 'Não foi possível salvar a url informada.')
             ));    
