@@ -25,6 +25,8 @@ import DocumentosApp from './components/documentos/DocumentosApp';
 import DocumentoApp from './components/documento/DocumentoApp';
 import DocumentoDetail from './components/documento/DocumentoDetail';
 import DocumentoItens from './components/documento/DocumentoItens';
+import DocumentoItensDetail from './components/documento/DocumentoItensDetail';
+import DocumentoItensSone from './components/especificos/sonepar/documento/DocumentoItensSone';
 import AprovacaoApp from './components/aprovacao/AprovacaoApp';
 
 class Routes extends Component {
@@ -80,23 +82,49 @@ class Routes extends Component {
     rightButtonItems() {
         const stateDocs = store.getState().DocumentosReducer;
         if (stateDocs.itemShow) {
-            return (
-               <View style={{ marginHorizontal: 10 }}>
-                   <TouchableOpacity 
-                       onPress={() => Actions.documentoItens({ items: [...stateDocs.items] })}
-                   >
-                       <Text
-                           style={{
-                               color: 'white',
-                               fontSize: 18,
-                               textAlign: 'center'
-                           }} 
+            // Especifico Sonepar
+            if (
+                stateDocs.appType.toLowerCase() === 'sonepar' &&
+                '7;8'.includes(stateDocs.docNumber) // Pedido de compra ou emergencial
+            ) {
+                return (
+                   <View style={{ marginHorizontal: 10 }}>
+                       <TouchableOpacity 
+                           onPress={() => Actions.documentoItensSone({ 
+                               items: [...stateDocs.items] 
+                            })}
                        >
-                           {'  Itens  '}
-                       </Text>
-                   </TouchableOpacity>
-               </View>
-           );   
+                           <Text
+                               style={{
+                                   color: 'white',
+                                   fontSize: 18,
+                                   textAlign: 'center'
+                               }} 
+                           >
+                               {'  Itens  '}
+                           </Text>
+                       </TouchableOpacity>
+                   </View>
+               );   
+            }
+
+            return (
+                <View style={{ marginHorizontal: 10 }}>
+                    <TouchableOpacity 
+                        onPress={() => Actions.documentoItens({ items: [...stateDocs.items] })}
+                    >
+                        <Text
+                            style={{
+                                color: 'white',
+                                fontSize: 18,
+                                textAlign: 'center'
+                            }} 
+                        >
+                            {'  Itens  '}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );   
         }  
     }
 
@@ -146,6 +174,20 @@ class Routes extends Component {
                         title='Itens' 
                         component={DocumentoItens}
                         titleStyle={styles.title}
+                        leftButtonTextStyle={styles.btLeft}
+                        backButtonTintColor='white'  
+                    />
+                    <Scene 
+                        key='documentoItensSone'
+                        title='Ordem Compra' 
+                        component={DocumentoItensSone}
+                        titleStyle={styles.title}
+                        leftButtonTextStyle={styles.btLeft}
+                        backButtonTintColor='white'  
+                    />
+                    <Scene 
+                        key='documentoItensDetail'
+                        component={DocumentoItensDetail}
                         leftButtonTextStyle={styles.btLeft}
                         backButtonTintColor='white'  
                     />

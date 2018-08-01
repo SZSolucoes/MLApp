@@ -8,7 +8,8 @@ import {
     Image,
     AsyncStorage,
     ActivityIndicator,
-    Button
+    Button,
+    Dimensions
 } from 'react-native';
 
 import Axios, { CancelToken } from 'axios';
@@ -30,7 +31,9 @@ import {
     modificaListDocsSelected,
     modificaCleanDocumentos,
     modificaAuxModal,
-    doFetchDocuments
+    doFetchDocuments,
+    modificaAppType,
+    modificaDocNumber
 } from '../../actions/DocumentosActions';
 
 import unchecklistlarge from '../../../resources/imgs/unchecklistlarge.png';
@@ -52,6 +55,7 @@ class Documentos extends Component {
         this.doFetchAllDocs = this.doFetchAllDocs.bind(this);
         this.doPersistToken = this.doPersistToken.bind(this);
         this.doPersist = this.doPersist.bind(this);
+        this.doSetAppType = this.doSetAppType.bind(this);
         this.onPressModalCancel = this.onPressModalCancel.bind(this);
         this.getStateToken = this.getStateToken.bind(this);
         this.modalToken = CancelToken.source();
@@ -62,6 +66,12 @@ class Documentos extends Component {
             .then((value) => {
                 if (value) {
                     this.doPersistToken(value);
+                }
+            });
+        AsyncStorage.getItem('apptype')
+            .then((value) => {
+                if (value) {
+                    this.doSetAppType(value);
                 }
             });
         this.doFetchAllDocs();
@@ -80,8 +90,13 @@ class Documentos extends Component {
         return this.state.modalToken;
     }
 
-    doTouchItem(documentos, title) {
+    doSetAppType(value) {
+        this.props.modificaAppType(value);
+    }
+
+    doTouchItem(documentos, title, docNumber) {
         this.props.modificaListDocsSelected(documentos);
+        this.props.modificaDocNumber(docNumber);
         Actions.documentoApp({ title });
     }
 
@@ -148,7 +163,9 @@ class Documentos extends Component {
                                     key={index}
                                     onPress={
                                         () => 
-                                        this.doTouchItem(documento.documents, 'Pedido de Compra')
+                                        this.doTouchItem(
+                                            documento.documents, 'Pedido de Compra', '7'
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -178,7 +195,9 @@ class Documentos extends Component {
                                     key={index}
                                     onPress={
                                         () => 
-                                        this.doTouchItem(documento.documents, 'Pedido Emergencial')
+                                        this.doTouchItem(
+                                            documento.documents, 'Pedido Emergencial', '8'
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -208,7 +227,9 @@ class Documentos extends Component {
                                     key={index}
                                     onPress={
                                         () => 
-                                        this.doTouchItem(documento.documents, 'Documento Normal')
+                                        this.doTouchItem(
+                                            documento.documents, 'Documento Normal', '24'
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -238,7 +259,9 @@ class Documentos extends Component {
                                     key={index}
                                     onPress={
                                         () => 
-                                        this.doTouchItem(documento.documents, 'Antecipação')
+                                        this.doTouchItem(
+                                            documento.documents, 'Antecipação', '25'
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -268,7 +291,9 @@ class Documentos extends Component {
                                     key={index}
                                     onPress={
                                         () => 
-                                        this.doTouchItem(documento.documents, 'PEF')
+                                        this.doTouchItem(
+                                            documento.documents, 'PEF', '26'
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -297,7 +322,9 @@ class Documentos extends Component {
                                 <TouchableOpacity
                                     key={index}
                                     onPress={
-                                        () => this.doTouchItem(documento.documents, documento.type)
+                                        () => this.doTouchItem(
+                                            documento.documents, documento.type, documento.docNumber
+                                        )
                                     }
                                 >
                                     <View style={styles.viewRows}>
@@ -323,6 +350,29 @@ class Documentos extends Component {
                 })
             ); 
         }
+
+        return (
+            <View 
+                style={{ 
+                        height: Dimensions.get('window').height - 200,
+                        justifyContent: 'center',
+                        alignItems: 'center' 
+                }}
+            >
+                <Text style={{ fontSize: 20 }}>Não há pendências...</Text>
+                <View style={styles.viewRefresh}>
+                    <TouchableOpacity
+                        onPress={() => this.doFetchAllDocs()}
+                    >
+                        <Text 
+                            adjustsFontSizeToFit
+                            numberOfLines={1}
+                            style={styles.textRefresh}
+                        >Atualizar</Text>
+                    </TouchableOpacity>
+                </View> 
+            </View>
+        );
     }
 
     render() {
@@ -423,6 +473,19 @@ const styles = StyleSheet.create({
     containerNumb: { 
         flexDirection: 'row',
         justifyContent: 'flex-end'
+    },
+    viewRefresh: {
+        flexDirection: 'row', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 130,
+        marginVertical: 20
+    },
+    textRefresh: {
+        fontSize: 18,
+        fontWeight: '400',
+        textAlign: 'center',
+        color: '#178544'
     }
 });
 
@@ -442,6 +505,8 @@ export default connect(mapStateToProps, {
     modificaPassword,
     modificaCleanLogin,
     modificaUrlServer,
-    doPersistToken
+    doPersistToken,
+    modificaAppType,
+    modificaDocNumber
 })(Documentos);
 

@@ -107,7 +107,7 @@ const doLoginSuccess = (response, params, dispatch) => {
                 type: 'modifica_indicator_login',
                 payload: false
             });
-            updateShared({ ...params });
+            updateShared({ ...params }, response);
         } else {
             dispatch({
                 type: 'modifica_indicator_login',
@@ -133,9 +133,10 @@ const doLoginSuccess = (response, params, dispatch) => {
     }
 };
 
-const updateShared = (params) => {
+const updateShared = (params, response) => {
     AsyncStorage.setItem('userlogged', 's');
     AsyncStorage.setItem('user', params.username);
+    AsyncStorage.setItem('apptype', response.data.appType);
     AsyncStorage.setItem('pwd', params.password)
         .then(() => Actions.documentosApp());
 };

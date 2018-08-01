@@ -7,9 +7,10 @@ import {
 
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import DocumentoPureItem from './DocumentoPureItem';
 
-class DocumentoItens extends Component {
+import DocumentoPureItemSone from './DocumentoPureItemSone';
+
+class DocumentoItensSone extends Component {
 
     constructor(props) {
         super(props);
@@ -38,7 +39,7 @@ class DocumentoItens extends Component {
     )
 
     renderItem = ({ item }) => (
-        <DocumentoPureItem item={item} onPressItem={this.onPressItem} />
+        <DocumentoPureItemSone item={item} onPressItem={this.onPressItem} />                    
     )
 
     render() {
@@ -60,7 +61,7 @@ class DocumentoItens extends Component {
 const mapStateToProps = () => ({
 });
 
-export default connect(mapStateToProps, {})(DocumentoItens);
+export default connect(mapStateToProps, {})(DocumentoItensSone);
 
 const styles = StyleSheet.create({
     viewLista: {

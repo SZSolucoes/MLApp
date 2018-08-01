@@ -32,6 +32,16 @@ export const modificaAuxModal = (value) => ({
     payload: value
 });
 
+export const modificaAppType = (value) => ({
+    type: 'modifica_apptype_documentos',
+    payload: value
+});
+
+export const modificaDocNumber = (value) => ({
+    type: 'modifica_docnumber_documentos',
+    payload: value
+});
+
 export const doFetchDocuments = (params, popDocs) => dispatch => {
     const source = CancelToken.source();
     setTimeout(() => {

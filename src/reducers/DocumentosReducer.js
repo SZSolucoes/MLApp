@@ -4,7 +4,9 @@ const INITIAL_STATE = {
     showDocumentsDialog: false,
     auxModal: false,
     itemShow: false,
-    items: []
+    items: [],
+    appType: '',
+    docNumber: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,6 +40,16 @@ export default (state = INITIAL_STATE, action) => {
             return { 
                 ...state, 
                 items: action.payload 
+            };
+        case 'modifica_apptype_documentos':
+            return { 
+                ...state, 
+                appType: action.payload 
+            };
+        case 'modifica_docnumber_documentos':
+            return { 
+                ...state, 
+                docNumber: action.payload 
             };
         case 'modifica_clean_documentos':
             return {
