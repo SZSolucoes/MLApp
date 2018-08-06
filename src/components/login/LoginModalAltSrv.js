@@ -33,6 +33,7 @@ class LoginModalAltSrv extends Component {
         this.keyboardHide = this.keyboardHide.bind(this);
         this.onPressSalvar = this.onPressSalvar.bind(this);
         this.setUrlServer = this.setUrlServer.bind(this);
+        this.setUrlDefault = this.setUrlDefault.bind(this);
         this.setServer = this.setServer.bind(this);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardHide);
@@ -43,7 +44,11 @@ class LoginModalAltSrv extends Component {
     componentDidUpdate() {      
         if (this.first) {   
             AsyncStorage.getItem('urlServer')
-            .then((value) => this.props.modificaUrlServer(value));
+            .then((value) => {
+                if (value) {
+                    this.props.modificaUrlServer(value);
+                }
+            });
             this.first = false;
         }        
     }
@@ -69,12 +74,25 @@ class LoginModalAltSrv extends Component {
             .catch(() => (
                 Alert.alert('Erro ao salvar', 'Não foi possível salvar a url informada.')
             ));    
+        } else {
+            AsyncStorage.setItem('urlServer', '')
+            .then(() => this.setUrlDefault())
+            .catch(() => (
+                Alert.alert('Erro ao salvar', 'Não foi possível salvar a url informada.')
+            ));   
         }
     }
 
     setUrlServer(value) {
         Axios.defaults.baseURL = value;
         this.props.modificaUrlServer(value);
+        this.modificaModalVisible(false);
+    }
+
+    setUrlDefault() {
+        const urlDefault = 'http://szsolucoes.sytes.net/scripts/cgiip.exe/WService=wsbroker1';
+        Axios.defaults.baseURL = urlDefault;
+        this.props.modificaUrlServer('');
         this.modificaModalVisible(false);
     }
 
@@ -192,7 +210,7 @@ class LoginModalAltSrv extends Component {
                                                     <Text>Versão:</Text>
                                                 </View>
                                                 <View style={styles.allCenter}>
-                                                    <Text>1.0.0</Text>
+                                                    <Text>2.0.2</Text>
                                                 </View>
                                             </View>
                                         </View>

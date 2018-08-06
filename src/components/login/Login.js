@@ -10,8 +10,7 @@ import {
     Keyboard,
     Alert,
     AsyncStorage,
-    Platform,
-    KeyboardAvoidingView
+    Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -48,7 +47,11 @@ class Login extends Component {
 
     componentDidMount() {
         AsyncStorage.getItem('usertoken')
-            .then((token) => this.setToken(token));
+            .then((token) => { 
+                if (token) {
+                    this.setToken(token);
+                }
+            });
     }
 
     componentWillUnmount() {

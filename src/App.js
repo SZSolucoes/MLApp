@@ -18,6 +18,7 @@ class App extends Component {
         super(props);
 
         Axios.defaults.timeout = 20000; // Timeout default para o Axios
+        Axios.defaults.baseURL = 'http://szsolucoes.sytes.net/scripts/cgiip.exe/WService=wsbroker1';
 
         YellowBox.ignoreWarnings([
             'Warning: isMounted(...) is deprecated', 
@@ -75,7 +76,11 @@ class App extends Component {
             }
         });
         AsyncStorage.getItem('urlServer')
-            .then((value) => { Axios.defaults.baseURL = value; });
+            .then((value) => {
+                if (value) {
+                    Axios.defaults.baseURL = value; 
+                } 
+            });
     }
 
     render() {

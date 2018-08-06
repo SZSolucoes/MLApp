@@ -102,9 +102,19 @@ class Documentos extends Component {
 
     doFetchAllDocs() {
         AsyncStorage.getItem('user')
-            .then((value) => this.fetchDocs(value));
+            .then((value) => {
+                    if (value) {
+                        this.fetchDocs(value);
+                    }
+                }
+            );
         AsyncStorage.getItem('pwd')
-            .then((value) => this.props.modificaPassword(value));  
+            .then((value) => {
+                if (value) {
+                    this.props.modificaPassword(value); 
+                }
+            }); 
+                
         setTimeout(() => this.showModalOnTimeout(), 500);
     }
 
@@ -115,10 +125,18 @@ class Documentos extends Component {
             userToken: ''
         };
         AsyncStorage.getItem('user')
-            .then((value) => { params.username = value; })
+            .then((value) => {
+                if (value) {
+                    params.username = value; 
+                } 
+            })
             .then(
                 AsyncStorage.getItem('pwd')
-                .then((value) => { params.password = value; })
+                .then((value) => { 
+                    if (value) {
+                        params.password = value; 
+                    }
+                })
                 .then(() => this.doPersist({ ...params, userToken: token }))
             );
     }
@@ -142,8 +160,10 @@ class Documentos extends Component {
         this.props.modificaUsername(value);
         if (value) {
             AsyncStorage.getItem('urlServer')
-            .then((url) => { 
-                Axios.defaults.baseURL = url; 
+            .then((url) => {
+                if (url) {
+                    Axios.defaults.baseURL = url; 
+                } 
             })
             .then(() => 
                 this.props.doFetchDocuments({ username: value, modalToken: this.modalToken })

@@ -55,7 +55,11 @@ class Routes extends Component {
         this.props.modificaCleanDocumentos();
         this.props.modificaCleanLogin();
         AsyncStorage.getItem('urlServer')
-        .then((value) => this.props.modificaUrlServer(value));
+        .then((value) => {
+            if (value) {
+                this.props.modificaUrlServer(value);
+            }
+        });
         Actions.pop();
     }
 
