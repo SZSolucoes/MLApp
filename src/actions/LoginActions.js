@@ -43,7 +43,7 @@ export const modificaUrlServer = (url) => ({
 });
 
 export const doPersistToken = (params) => dispatch => {
-    Axios.get('/service/doLogin.p', {
+    Axios.get('doLogin.p', {
         params: {
             username: params.username,
             password: params.password,
@@ -65,11 +65,11 @@ export const doLogin = (params) => dispatch => {
         payload: true
     });
 
-    Axios.get('/service/doLogin.p', { 
+    Axios.get('doLogin.p', { 
             cancelToken: source.token
         })
         .then(() => {
-            Axios.get('/service/doLogin.p', {
+            Axios.get('doLogin.p', {
                 params: {
                     username: params.username,
                     password: params.password,

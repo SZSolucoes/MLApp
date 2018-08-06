@@ -63,10 +63,25 @@ class LoginModalAltSrv extends Component {
             const protocol = this.props.urlServer.substr(0, 4); 
             let urlServer = '';
 
+            // Tratamento para o protocolo
             if (protocol.toLowerCase() !== 'http') {
                 urlServer = `http://${this.props.urlServer}`;        
             } else {
                 urlServer = this.props.urlServer;
+            }
+
+            // Tratamento para o service
+            if (!(urlServer.includes('/service'))) {
+                if (urlServer.includes('/', urlServer.length - 1)) {
+                    urlServer = `${urlServer}service/`;
+                } else {
+                    urlServer = `${urlServer}/service/`;
+                }       
+            }
+
+            // Barra ao final da url
+            if ((!urlServer.includes('/', urlServer.length - 1))) {
+                urlServer = `${urlServer}/`;
             }
             
             AsyncStorage.setItem('urlServer', urlServer)
@@ -90,7 +105,7 @@ class LoginModalAltSrv extends Component {
     }
 
     setUrlDefault() {
-        const urlDefault = 'http://szsolucoes.sytes.net/scripts/cgiip.exe/WService=wsbroker1';
+        const urlDefault = 'http://szsolucoes.sytes.net/scripts/cgiip.exe/WService=wsbroker1/service/';
         Axios.defaults.baseURL = urlDefault;
         this.props.modificaUrlServer('');
         this.modificaModalVisible(false);

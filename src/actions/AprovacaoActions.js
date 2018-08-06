@@ -39,11 +39,11 @@ export const doApprove = (params) => dispatch => {
         payload: true
     });
     
-    Axios.get('/service/doApproval.p', { 
+    Axios.get('doApproval.p', { 
             cancelToken: source.token
         })
         .then(() => {
-            Axios.get('/service/doApproval.p', { 
+            Axios.get('doApproval.p', { 
                 params: {
                     username: params.username,
                     password: params.password,
@@ -87,11 +87,11 @@ export const doReject = (params) => dispatch => {
         payload: true
     });
     
-    Axios.get('/service/doApproval.p', { 
+    Axios.get('doApproval.p', { 
             cancelToken: source.token
         })
         .then(() => {
-            Axios.get('/service/doApproval.p', { 
+            Axios.get('doApproval.p', { 
                 params: {
                     username: params.username,
                     password: params.password,

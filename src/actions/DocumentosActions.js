@@ -53,11 +53,11 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
         payload: true
     });
 
-    Axios.get('/service/getDocuments.p', { 
+    Axios.get('getDocuments.p', { 
             cancelToken: source.token 
         })
         .then(() => {
-            Axios.get('/service/getDocuments.p', {
+            Axios.get('getDocuments.p', {
                 params: {
                     username: params.username
                 },
@@ -116,11 +116,11 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
         payload: true
     });
 
-    Axios.get('/service/getDocuments.p', { 
+    Axios.get('getDocuments.p', { 
             cancelToken: source.token
         })
         .then(() => {
-            Axios.get('/service/getDocuments.p', {
+            Axios.get('getDocuments.p', {
                 params: {
                     username: params.username
                 },
