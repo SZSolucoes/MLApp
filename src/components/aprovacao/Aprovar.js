@@ -4,8 +4,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableOpacity,
-    Alert
+    TouchableOpacity
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -27,19 +26,15 @@ class Aprovar extends Component {
     }
 
     doApprove() {
-        const txtAppr = this.props.txtAprovar.trim().replace(/\r?\n|\r/g, '');
-        if (txtAppr) {
-            const params = {
-                username: this.props.username,
-                password: this.props.password,
-                action: 'Aprovar',
-                nrTrans: this.props.item.id,
-                remarks: txtAppr
-            };
-            this.props.doApprove(params);
-        } else {
-            Alert.alert('Aviso', 'O campo narrativa precisa ser informado.');
-        }
+        const txtAppr = this.props.txtAprovar.trim();
+        const params = {
+            username: this.props.username,
+            password: this.props.password,
+            action: 'Aprovar',
+            nrTrans: this.props.item.id,
+            remarks: txtAppr
+        };
+        this.props.doApprove(params);
     }
 
     render() {

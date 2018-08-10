@@ -4,8 +4,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableOpacity,
-    Alert
+    TouchableOpacity
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -27,19 +26,15 @@ class Rejeitar extends Component {
     }
 
     doReject() {
-        const txtRjct = this.props.txtRejeitar.trim().replace(/\r?\n|\r/g, '');
-        if (txtRjct) {
-            const params = {
-                username: this.props.username,
-                password: this.props.password,
-                action: 'Rejeitar',
-                nrTrans: this.props.item.id,
-                remarks: txtRjct
-            };
-            this.props.doReject(params);
-        } else {
-            Alert.alert('Aviso', 'O campo narrativa precisa ser informado.');
-        }
+        const txtRjct = this.props.txtRejeitar.trim();
+        const params = {
+            username: this.props.username,
+            password: this.props.password,
+            action: 'Rejeitar',
+            nrTrans: this.props.item.id,
+            remarks: txtRjct
+        };
+        this.props.doReject(params);
     }
 
     render() {
