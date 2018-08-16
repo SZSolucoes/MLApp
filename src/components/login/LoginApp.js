@@ -27,15 +27,23 @@ class LoginApp extends Component {
         this.renderLogin = this.renderLogin.bind(this);
         this.onTouchLogin = this.onTouchLogin.bind(this);
 
-        AsyncStorage.getItem('userlogged')
-            .then((value) => {
-                if (value === 's') {
-                    Actions.documentosApp();
-                    this.changeLoginState();
-                } else {
-                    this.changeLoginState();
-                }
+        AsyncStorage.getItem('apptype')
+            .then((apptype) => {
+                AsyncStorage.getItem('userlogged')
+                    .then((value) => {
+                        if (value === 's') {
+                            if (apptype && apptype.toLowerCase() === 'familia') {
+                                Actions.documentosBonyApp();
+                            } else {
+                                Actions.documentosApp();
+                            }
+                            this.changeLoginState();
+                        } else {
+                            this.changeLoginState();
+                        }
+                    });
             });
+        
     }
 
     onTouchLogin() {
@@ -99,7 +107,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    showLogoLogin: state.LoginReducer.showLogoLogin
+    showLogoLogin: state.LoginReducer.showLogoLogin,
+    appType: state.DocumentosReducer.appType
 });
 
 export default connect(mapStateToProps, {})(LoginApp);

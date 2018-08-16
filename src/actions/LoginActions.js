@@ -138,6 +138,13 @@ const updateShared = (params, response) => {
     AsyncStorage.setItem('user', params.username);
     AsyncStorage.setItem('apptype', response.data.appType);
     AsyncStorage.setItem('pwd', params.password)
-        .then(() => Actions.documentosApp());
+        .then(() => {
+                if (response.data.appType.toLowerCase() === 'familia') {
+                    Actions.documentosBonyApp();
+                } else {
+                    Actions.documentosApp();
+                }
+            }
+        );
 };
 

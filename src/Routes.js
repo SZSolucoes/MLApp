@@ -22,10 +22,15 @@ import { store } from './App';
 
 import LoginApp from './components/login/LoginApp';
 import DocumentosApp from './components/documentos/DocumentosApp';
+import DocumentosBonyApp from './components/especificos/bonyplus/documentos/DocumentosBonyApp';
 import DocumentoApp from './components/documento/DocumentoApp';
+import DocumentoBonyApp from './components/especificos/bonyplus/documento/DocumentoBonyApp';
 import DocumentoDetail from './components/documento/DocumentoDetail';
+import DocumentoBonyDetail from './components/especificos/bonyplus/documento/DocumentoBonyDetail';
 import DocumentoItens from './components/documento/DocumentoItens';
 import DocumentoItensDetail from './components/documento/DocumentoItensDetail';
+import DocumentoBonyItensDetail 
+    from './components/especificos/bonyplus/documento/DocumentoBonyItensDetail';
 import DocumentoItensSone from './components/especificos/sonepar/documento/DocumentoItensSone';
 import AprovacaoApp from './components/aprovacao/AprovacaoApp';
 
@@ -156,9 +161,26 @@ class Routes extends Component {
                         renderRightButton={() => this.rightButtonDocumentos()}
                     />
                     <Scene 
+                        key='documentosBonyApp'
+                        title='Documentos' 
+                        component={DocumentosBonyApp}
+                        titleStyle={styles.title}
+                        left={() => null}
+                        renderRightButton={() => this.rightButtonDocumentos()}
+                    />
+                    <Scene 
                         key='documentoApp'
                         title='Documento' 
                         component={DocumentoApp}
+                        titleStyle={styles.title}
+                        leftButtonTextStyle={styles.btLeft}
+                        backButtonTintColor='white'
+                        getTitle={() => this.props.title}  
+                    />
+                    <Scene 
+                        key='documentoBonyApp'
+                        title='Documento' 
+                        component={DocumentoBonyApp}
                         titleStyle={styles.title}
                         leftButtonTextStyle={styles.btLeft}
                         backButtonTintColor='white'
@@ -174,6 +196,14 @@ class Routes extends Component {
                         renderRightButton={() => this.rightButtonItems()}
                     />
                     <Scene 
+                        key='documentoBonyDetail'
+                        title='Famílias' 
+                        component={DocumentoBonyDetail}
+                        titleStyle={styles.title}
+                        leftButtonTextStyle={styles.btLeft}
+                        backButtonTintColor='white'
+                    />
+                    <Scene 
                         key='documentoItens'
                         title='Itens' 
                         component={DocumentoItens}
@@ -185,6 +215,14 @@ class Routes extends Component {
                         key='documentoItensSone'
                         title='Ordem Compra' 
                         component={DocumentoItensSone}
+                        titleStyle={styles.title}
+                        leftButtonTextStyle={styles.btLeft}
+                        backButtonTintColor='white'  
+                    />
+                    <Scene 
+                        key='documentoBonyItensDetail'
+                        title='Itens' 
+                        component={DocumentoBonyItensDetail}
                         titleStyle={styles.title}
                         leftButtonTextStyle={styles.btLeft}
                         backButtonTintColor='white'  

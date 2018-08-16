@@ -2,6 +2,7 @@
 import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Axios, { CancelToken } from 'axios';
+import { store } from '../App';
 
 export const modificaShowDocsDialog = (value) => ({
     type: 'modifica_showdocumentsdialog_documentos',
@@ -44,6 +45,10 @@ export const modificaDocNumber = (value) => ({
 
 export const doFetchDocuments = (params, popDocs) => dispatch => {
     const source = CancelToken.source();
+    const stateDocs = store.getState().DocumentosReducer;
+    const appType = stateDocs.appType.toLowerCase();
+    const docOrFamily = appType === 'familia' ? 'getFamily.p' : 'getDocuments.p';
+
     setTimeout(() => {
         source.cancel();
     }, Axios.defaults.timeout);
@@ -53,11 +58,11 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
         payload: true
     });
 
-    Axios.get('getDocuments.p', { 
+    Axios.get(docOrFamily, { 
             cancelToken: source.token 
         })
         .then(() => {
-            Axios.get('getDocuments.p', {
+            Axios.get(docOrFamily, {
                 params: {
                     username: params.username
                 },
@@ -81,7 +86,7 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
                     return dataParsed;
                 }
             }, { timeout: 120000 })
-            .then((response) => onFetchDocSuccess(dispatch, response, popDocs))
+            .then((response) => onFetchDocSuccess(dispatch, response, popDocs, appType))
             .catch((error) => {
                 dispatch({ 
                     type: 'modifica_clean_documentos'
@@ -107,6 +112,10 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
 
 export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
     const source = CancelToken.source();
+    const stateDocs = store.getState().DocumentosReducer;
+    const appType = stateDocs.appType.toLowerCase();
+    const docOrFamily = appType === 'familia' ? 'getFamily.p' : 'getDocuments.p';
+
     setTimeout(() => {
         source.cancel();
     }, Axios.defaults.timeout);
@@ -116,11 +125,11 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
         payload: true
     });
 
-    Axios.get('getDocuments.p', { 
+    Axios.get(docOrFamily, { 
             cancelToken: source.token
         })
         .then(() => {
-            Axios.get('getDocuments.p', {
+            Axios.get(docOrFamily, {
                 params: {
                     username: params.username
                 },
@@ -143,8 +152,16 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
                     return dataParsed;
                 }
             }, { timeout: 120000 })
-            .then((response) => onFetchDocSuccess(dispatch, response, popDocs))
+            .then((response) => onFetchDocSuccess(dispatch, response, popDocs, appType))
             .catch(() => {
+                dispatch({
+                    type: 'modifica_aprovardialog_aprovacao',
+                    payload: false
+                });
+                dispatch({
+                    type: 'modifica_rejeitardialog_aprovacao',
+                    payload: false
+                });
                 dispatch({ 
                     type: 'modifica_clean_documentos'
                 });
@@ -155,6 +172,14 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
             });
         })
         .catch(() => {
+            dispatch({
+                type: 'modifica_aprovardialog_aprovacao',
+                payload: false
+            });
+            dispatch({
+                type: 'modifica_rejeitardialog_aprovacao',
+                payload: false
+            });
             dispatch({ 
                 type: 'modifica_clean_documentos'
             });
@@ -165,7 +190,7 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
         });
 };
 
-const onFetchDocSuccess = (dispatch, response, popDocs) => {
+const onFetchDocSuccess = (dispatch, response, popDocs, appType) => {
     dispatch({ 
         type: 'modifica_clean_documentos'
     });
@@ -177,11 +202,14 @@ const onFetchDocSuccess = (dispatch, response, popDocs) => {
                 type: 'modifica_listdocs_documentos',
                 payload: body.pendings
             });
-
             if (popDocs) {
                 if (popDocs.type === 'aprovar') {
                     dispatch({
                         type: 'modifica_aprovardialog_aprovacao',
+                        payload: false
+                    });
+                    dispatch({
+                        type: 'modifica_rejeitardialog_aprovacao',
                         payload: false
                     });
                     setTimeout(() => 
@@ -189,6 +217,10 @@ const onFetchDocSuccess = (dispatch, response, popDocs) => {
                         500
                     );
                 } else {
+                    dispatch({
+                        type: 'modifica_aprovardialog_aprovacao',
+                        payload: false
+                    });
                     dispatch({
                         type: 'modifica_rejeitardialog_aprovacao',
                         payload: false
@@ -198,10 +230,23 @@ const onFetchDocSuccess = (dispatch, response, popDocs) => {
                         500
                     );
                 }
-                Actions.popTo('documentosApp');
+
+                if (appType === 'familia') {
+                    Actions.popTo('documentosBonyApp');
+                } else {
+                    Actions.popTo('documentosApp');
+                }
             }  
         }
     } else {
+        dispatch({
+            type: 'modifica_aprovardialog_aprovacao',
+            payload: false
+        });
+        dispatch({
+            type: 'modifica_rejeitardialog_aprovacao',
+            payload: false
+        });
         setTimeout(() => 
             Alert.alert('Aviso', 'Ocorreu um erro interno no servidor.'), 
             500

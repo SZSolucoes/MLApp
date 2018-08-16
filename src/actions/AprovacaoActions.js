@@ -146,6 +146,10 @@ const doApproveSuccess = (response, dispatch, params) => {
             }
         }
     } else {
+        dispatch({
+            type: 'modifica_aprovardialog_aprovacao',
+            payload: false
+        });
         setTimeout(() => 
             Alert.alert('Aviso', 'Ocorreu um erro interno no servidor.'), 
             500
@@ -175,6 +179,10 @@ const doRejectSuccess = (response, dispatch, params) => {
             }
         }
     } else {
+        dispatch({
+            type: 'modifica_rejeitardialog_aprovacao',
+            payload: false
+        });
         setTimeout(() => 
             Alert.alert('Aviso', 'Ocorreu um erro interno no servidor.'), 
             500
