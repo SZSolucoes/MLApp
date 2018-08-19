@@ -1,5 +1,6 @@
 
 import { Alert } from 'react-native';
+import Orientation from 'react-native-orientation';
 import { Actions } from 'react-native-router-flux';
 import Axios, { CancelToken } from 'axios';
 import { store } from '../App';
@@ -49,6 +50,7 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
     const appType = stateDocs.appType.toLowerCase();
     const docOrFamily = appType === 'familia' ? 'getFamily.p' : 'getDocuments.p';
 
+    Orientation.unlockAllOrientations();
     setTimeout(() => {
         source.cancel();
     }, Axios.defaults.timeout);

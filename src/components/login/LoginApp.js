@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native';
+import Orientation from 'react-native-orientation';
 
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -32,6 +33,7 @@ class LoginApp extends Component {
                 AsyncStorage.getItem('userlogged')
                     .then((value) => {
                         if (value === 's') {
+                            Orientation.unlockAllOrientations();
                             if (apptype && apptype.toLowerCase() === 'familia') {
                                 Actions.documentosBonyApp();
                             } else {
@@ -43,7 +45,6 @@ class LoginApp extends Component {
                         }
                     });
             });
-        
     }
 
     onTouchLogin() {

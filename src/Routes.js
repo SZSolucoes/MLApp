@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Router, Scene, Actions } from 'react-native-router-flux';
+import Orientation from 'react-native-orientation';
 import {
     View,
     TouchableOpacity,
@@ -54,6 +55,7 @@ class Routes extends Component {
     }
 
     doLogoutDocumentos() {
+        Orientation.lockToPortrait();
         AsyncStorage.setItem('userlogged', 'n');
         AsyncStorage.setItem('user', ' ');
         AsyncStorage.setItem('pwd', ' ');

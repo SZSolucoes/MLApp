@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Orientation from 'react-native-orientation';
 import { 
     View, 
     StyleSheet,
@@ -52,11 +53,13 @@ class Login extends Component {
                     this.setToken(token);
                 }
             });
+        Orientation.lockToPortrait();
     }
 
     componentWillUnmount() {
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
+        Orientation.unlockAllOrientations();
     }
 
     onPresAltSrv() {

@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import PTRView from 'react-native-pull-to-refresh';
 import { Dialog } from 'react-native-simple-dialogs';
+import Orientation from 'react-native-orientation';
 
 import {
     modificaUsername,
@@ -62,6 +63,7 @@ class Documentos extends Component {
     }
 
     componentDidMount() {
+        Orientation.unlockAllOrientations();
         AsyncStorage.getItem('usertoken')
             .then((value) => {
                 if (value) {
