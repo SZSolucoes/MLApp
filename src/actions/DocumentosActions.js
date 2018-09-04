@@ -72,7 +72,7 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                timeout: 120000, // 120 segundos
+                timeout: 180000, // 120 segundos
                 maxContentLength: 5000000, // 5 MB
                 responseEncoding: 'utf8',
                 transformResponse: (data) => {
@@ -87,7 +87,7 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
                     }
                     return dataParsed;
                 }
-            }, { timeout: 120000 })
+            }, { timeout: 180000 })
             .then((response) => onFetchDocSuccess(dispatch, response, popDocs, appType))
             .catch((error) => {
                 dispatch({ 
@@ -138,7 +138,7 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                timeout: 120000, // 120 segundos
+                timeout: 180000, // 120 segundos
                 maxContentLength: 5000000, // 5 MB
                 responseEncoding: 'utf8',
                 transformResponse: (data) => {
@@ -153,7 +153,7 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
                     }
                     return dataParsed;
                 }
-            }, { timeout: 120000 })
+            }, { timeout: 180000 })
             .then((response) => onFetchDocSuccess(dispatch, response, popDocs, appType))
             .catch(() => {
                 dispatch({

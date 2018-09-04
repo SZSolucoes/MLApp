@@ -17,7 +17,7 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        Axios.defaults.timeout = 20000; // Timeout default para o Axios
+        Axios.defaults.timeout = 180000; // Timeout default para o Axios
         Axios.defaults.baseURL = 'http://szsolucoes.sytes.net/scripts/cgiip.exe/WService=wsbroker1/service/';
 
         YellowBox.ignoreWarnings([
