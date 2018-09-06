@@ -192,7 +192,7 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
         });
 };
 
-const onFetchDocSuccess = (dispatch, response, popDocs, appType) => {
+const onFetchDocSuccess = (dispatch, response, popDocs = false, appType) => {
     dispatch({ 
         type: 'modifica_clean_documentos'
     });
@@ -204,41 +204,6 @@ const onFetchDocSuccess = (dispatch, response, popDocs, appType) => {
                 type: 'modifica_listdocs_documentos',
                 payload: body.pendings
             });
-            if (popDocs) {
-                if (popDocs.type === 'aprovar') {
-                    dispatch({
-                        type: 'modifica_aprovardialog_aprovacao',
-                        payload: false
-                    });
-                    dispatch({
-                        type: 'modifica_rejeitardialog_aprovacao',
-                        payload: false
-                    });
-                    setTimeout(() => 
-                        Alert.alert('Aviso', 'Pendência Aprovada com sucesso!'), 
-                        500
-                    );
-                } else {
-                    dispatch({
-                        type: 'modifica_aprovardialog_aprovacao',
-                        payload: false
-                    });
-                    dispatch({
-                        type: 'modifica_rejeitardialog_aprovacao',
-                        payload: false
-                    });
-                    setTimeout(() => 
-                        Alert.alert('Aviso', 'Pendência Rejeitada com sucesso!'), 
-                        500
-                    );
-                }
-
-                if (appType === 'familia') {
-                    Actions.popTo('documentosBonyApp');
-                } else {
-                    Actions.popTo('documentosApp');
-                }
-            }  
         }
     } else {
         dispatch({
@@ -254,4 +219,39 @@ const onFetchDocSuccess = (dispatch, response, popDocs, appType) => {
             500
         );
     }
+    if (popDocs) {
+        if (popDocs.type === 'aprovar') {
+            dispatch({
+                type: 'modifica_aprovardialog_aprovacao',
+                payload: false
+            });
+            dispatch({
+                type: 'modifica_rejeitardialog_aprovacao',
+                payload: false
+            });
+            setTimeout(() => 
+                Alert.alert('Aviso', 'Pendência Aprovada com sucesso!'), 
+                500
+            );
+        } else {
+            dispatch({
+                type: 'modifica_aprovardialog_aprovacao',
+                payload: false
+            });
+            dispatch({
+                type: 'modifica_rejeitardialog_aprovacao',
+                payload: false
+            });
+            setTimeout(() => 
+                Alert.alert('Aviso', 'Pendência Rejeitada com sucesso!'), 
+                500
+            );
+        }
+
+        if (appType === 'familia') {
+            Actions.popTo('documentosBonyApp');
+        } else {
+            Actions.popTo('documentosApp');
+        }
+    }  
 };
