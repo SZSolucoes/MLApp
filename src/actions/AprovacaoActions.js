@@ -189,3 +189,52 @@ const doRejectSuccess = (response, dispatch, params) => {
         );
     }
 };
+
+export const doApproveBatch = (params) => dispatch => {
+    const source = CancelToken.source();
+    
+    setTimeout(() => {
+        source.cancel();
+    }, Axios.defaults.timeout);
+
+    dispatch({
+        type: 'modifica_aprovardialog_aprovacao',
+        payload: true
+    });
+    
+    Axios.get('doApproval.p', { 
+        cancelToken: source.token
+    })
+    .then(() => {
+        Axios.get('doApproval.p', { 
+            params: {
+                username: params.username,
+                password: params.password,
+                action: params.action,
+                nrTrans: params.nrTrans,
+                remarks: params.remarks
+            }
+        })
+        .then((response) => doApproveSuccess(response, dispatch, params))
+        .catch(() => {
+            dispatch({
+                type: 'modifica_aprovardialog_aprovacao',
+                payload: false
+            });
+            setTimeout(() => 
+                Alert.alert('Aviso', 'Ocorreu um erro interno no servidor.'), 
+                500
+            );
+        });
+    })
+    .catch(() => {
+        dispatch({
+            type: 'modifica_aprovardialog_aprovacao',
+            payload: false
+        });
+        setTimeout(() => 
+            Alert.alert('Aviso', 'Falha de comunicação com o servidor.'), 
+            500
+        );
+    });
+};

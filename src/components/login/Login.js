@@ -147,7 +147,7 @@ class Login extends Component {
                             ref={(input) => { this.txtPassword = input; }}
                             placeholder='Password'
                             placeholderTextColor='#f16636'
-                            returnKeyType='next'
+                            returnKeyType='go'
                             autoCapitalize='none'
                             autoCorrect={false}
                             style={[styles.input, { marginLeft: 33 }]}
@@ -155,6 +155,7 @@ class Login extends Component {
                             underlineColorAndroid='transparent'
                             onChangeText={password => this.props.modificaPassword(password)}
                             value={this.props.password}
+                            onSubmitEditing={() => this.pressEntrar()}
                         />
                         <TouchableOpacity
                             onPressIn={() => this.props.modificaHidePw(false)}

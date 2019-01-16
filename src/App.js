@@ -22,7 +22,10 @@ class App extends Component {
 
         YellowBox.ignoreWarnings([
             'Warning: isMounted(...) is deprecated', 
-            'Module RCTImageLoader'
+            'Module RCTImageLoader',
+            'Setting a timer',
+            'Deprecation warning: value provided is not in a recognized',
+            'Require cycle:'
         ]);
     }
 

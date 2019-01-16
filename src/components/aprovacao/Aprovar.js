@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { ProgressDialog } from 'react-native-simple-dialogs';
 
-import { modificaTxtAprovar, doApprove } from '../../actions/AprovacaoActions';
+import { modificaTxtAprovar, doApprove, doApproveBatch } from '../../actions/AprovacaoActions';
 
 class Aprovar extends Component {
 
@@ -27,14 +27,34 @@ class Aprovar extends Component {
 
     doApprove() {
         const txtAppr = this.props.txtAprovar.trim();
-        const params = {
-            username: this.props.username,
-            password: this.props.password,
-            action: 'Aprovar',
-            nrTrans: this.props.item.id,
-            remarks: txtAppr
-        };
-        this.props.doApprove(params);
+
+        if (this.props.isBatch && this.props.items) {
+            const itemsParamAprov = [];
+
+            for (let index = 0; index < this.props.items.length; index++) {
+                const element = this.props.items[index];
+                const params = {
+                    username: this.props.username,
+                    password: this.props.password,
+                    action: 'Aprovar',
+                    nrTrans: element.item.id,
+                    remarks: txtAppr
+                };
+
+                itemsParamAprov.push(params);
+            }
+
+            this.props.doApproveBatch(itemsParamAprov);
+        } else {
+            const params = {
+                username: this.props.username,
+                password: this.props.password,
+                action: 'Aprovar',
+                nrTrans: this.props.item.id,
+                remarks: txtAppr
+            };
+            this.props.doApprove(params);
+        }
     }
 
     render() {
@@ -135,5 +155,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, { 
     modificaTxtAprovar,
-    doApprove 
+    doApprove,
+    doApproveBatch
 })(Aprovar);

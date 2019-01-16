@@ -25,7 +25,13 @@ class AprovacaoApp extends Component {
 
     renderOpc() {
         if (this.props.opc === 'aprovar') {
-            return (<Aprovar item={this.props.item} />);
+            return (
+                <Aprovar 
+                    item={this.props.item} 
+                    isBatch={this.props.isBatch}
+                    items={this.props.items} 
+                />
+            );
         }
 
         return (<Rejeitar item={this.props.item} />);
