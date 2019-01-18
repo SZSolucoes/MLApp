@@ -225,7 +225,7 @@ class LoginModalAltSrv extends Component {
                                                     <Text>Versão:</Text>
                                                 </View>
                                                 <View style={styles.allCenter}>
-                                                    <Text>2.0.8</Text>
+                                                    <Text>2.0.9</Text>
                                                 </View>
                                             </View>
                                         </View>

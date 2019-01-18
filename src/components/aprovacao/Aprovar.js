@@ -30,6 +30,7 @@ class Aprovar extends Component {
 
         if (this.props.isBatch && this.props.items) {
             const itemsParamAprov = [];
+            const itemsErrorComp = [];
 
             for (let index = 0; index < this.props.items.length; index++) {
                 const element = this.props.items[index];
@@ -42,9 +43,17 @@ class Aprovar extends Component {
                 };
 
                 itemsParamAprov.push(params);
+                itemsErrorComp.push({
+                    supplier: element.item.supplier,
+                    docKey: element.item.docKey,
+                    user: element.item.user,
+                    value: element.item.value,
+                    docDate: element.item.docDate,
+                    nrTrans: element.item.id
+                });
             }
 
-            this.props.doApproveBatch(itemsParamAprov);
+            this.props.doApproveBatch(itemsParamAprov, itemsErrorComp);
         } else {
             const params = {
                 username: this.props.username,
@@ -58,6 +67,12 @@ class Aprovar extends Component {
     }
 
     render() {
+        let dialogText = 'Aprovando Pendência';
+
+        if (this.props.isBatch && this.props.items && this.props.items.length > 1) {
+            dialogText = 'Aprovando Pendências';
+        }
+
         return (
             <View style={styles.viewPrinc}>
                 <View style={{ flex: 1 }}>
@@ -90,7 +105,7 @@ class Aprovar extends Component {
                 <View>
                     <ProgressDialog
                         visible={this.props.showAprovarDialog}
-                        title='Aprovando Pendência'
+                        title={dialogText}
                         message='Por favor, Aguarde...'
                         activityIndicatorSize="large"
                         activityIndicatorColor="blue"

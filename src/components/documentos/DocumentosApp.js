@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = (state) => ({
-    
-});
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, {})(DocumentosApp);

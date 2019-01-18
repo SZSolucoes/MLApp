@@ -20,6 +20,11 @@ export const modificaItemsShow = (value) => ({
     payload: value
 });
 
+export const modificaFunCheckDoc = (value) => ({
+    type: 'modifica_funcheckdoc_documentos',
+    payload: value
+});
+
 export const modificaItems = (value) => ({
     type: 'modifica_items_documentos',
     payload: value
@@ -41,6 +46,16 @@ export const modificaAppType = (value) => ({
 
 export const modificaDocNumber = (value) => ({
     type: 'modifica_docnumber_documentos',
+    payload: value
+});
+
+export const modicaShowModalBatch = (value) => ({
+    type: 'modifica_showmodalbatchappr_documentos',
+    payload: value
+});
+
+export const modificaCheckPos = (value) => ({
+    type: 'modifica_checkpos_documentos',
     payload: value
 });
 
@@ -112,7 +127,13 @@ export const doFetchDocuments = (params, popDocs) => dispatch => {
         });
 };
 
-export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
+export const doFetchDocumentsRefresh = (
+        params, 
+        popDocs, 
+        dispatch,
+        itemsErrorCompFiltred = false,
+        isBatch = false
+    ) => {
     const source = CancelToken.source();
     const stateDocs = store.getState().DocumentosReducer;
     const appType = stateDocs.appType.toLowerCase();
@@ -154,7 +175,14 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
                     return dataParsed;
                 }
             }, { timeout: 180000 })
-            .then((response) => onFetchDocSuccess(dispatch, response, popDocs, appType))
+            .then((response) => onFetchDocSuccess(
+                dispatch, 
+                response, 
+                popDocs, 
+                appType,
+                itemsErrorCompFiltred,
+                isBatch
+            ))
             .catch(() => {
                 dispatch({
                     type: 'modifica_aprovardialog_aprovacao',
@@ -192,7 +220,14 @@ export const doFetchDocumentsRefresh = (params, popDocs, dispatch) => {
         });
 };
 
-const onFetchDocSuccess = (dispatch, response, popDocs = false, appType) => {
+const onFetchDocSuccess = (
+        dispatch, 
+        response, 
+        popDocs = false, 
+        appType,
+        itemsErrorCompFiltred = false,
+        isBatch = false
+    ) => {
     dispatch({ 
         type: 'modifica_clean_documentos'
     });
@@ -229,10 +264,27 @@ const onFetchDocSuccess = (dispatch, response, popDocs = false, appType) => {
                 type: 'modifica_rejeitardialog_aprovacao',
                 payload: false
             });
-            setTimeout(() => 
-                Alert.alert('Aviso', 'Pendência Aprovada com sucesso!'), 
-                500
-            );
+            if (itemsErrorCompFiltred) {
+                setTimeout(() => {
+                    dispatch({
+                        type: 'modifica_modalbatchappritens_documentos',
+                        payload: itemsErrorCompFiltred
+                    });
+                    dispatch({
+                        type: 'modifica_showmodalbatchappr_documentos',
+                        payload: true
+                    });
+                }, 500);
+            } else {
+                setTimeout(() => 
+                    Alert.alert(
+                        'Aviso', 
+                        isBatch ? 
+                        'Pendências Aprovadas com sucesso!' : 'Pendência Aprovada com sucesso!'
+                    ), 
+                    500
+                );
+            }
         } else {
             dispatch({
                 type: 'modifica_aprovardialog_aprovacao',

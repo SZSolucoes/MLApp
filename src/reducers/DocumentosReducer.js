@@ -6,7 +6,11 @@ const INITIAL_STATE = {
     itemShow: false,
     items: [],
     appType: '',
-    docNumber: ''
+    docNumber: '',
+    modalBatchApprItens: [],
+    showModalBatchAppr: false,
+    funCheckDoc: () => false,
+    checkPos: () => false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -51,6 +55,26 @@ export default (state = INITIAL_STATE, action) => {
                 ...state, 
                 docNumber: action.payload 
             };
+        case 'modifica_modalbatchappritens_documentos':
+            return { 
+                ...state, 
+                modalBatchApprItens: [...action.payload]
+            };
+        case 'modifica_showmodalbatchappr_documentos':
+            return { 
+                ...state, 
+                showModalBatchAppr: action.payload 
+            };
+        case 'modifica_funcheckdoc_documentos':
+            return { 
+                ...state, 
+                funCheckDoc: action.payload 
+            };
+        case 'modifica_checkpos_documentos':
+            return { 
+                ...state, 
+                checkPos: action.payload 
+            };
         case 'modifica_clean_documentos':
             return {
                 ...state,
@@ -59,7 +83,11 @@ export default (state = INITIAL_STATE, action) => {
                 showDocumentsDialog: false,
                 auxModal: false,
                 itemShow: false,
-                items: []
+                items: [],
+                modalBatchApprItens: [],
+                showModalBatchAppr: false,
+                funCheckDoc: () => false,
+                checkPos: () => false
             };
         default:
             return state;

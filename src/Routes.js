@@ -30,6 +30,7 @@ import DocumentoDetail from './components/documento/DocumentoDetail';
 import DocumentoBonyDetail from './components/especificos/bonyplus/documento/DocumentoBonyDetail';
 import DocumentoItens from './components/documento/DocumentoItens';
 import DocumentoItensDetail from './components/documento/DocumentoItensDetail';
+import DocumentoAllCheck from './components/documento/DocumentoAllCheck';
 import DocumentoBonyItensDetail 
     from './components/especificos/bonyplus/documento/DocumentoBonyItensDetail';
 import DocumentoItensSone from './components/especificos/sonepar/documento/DocumentoItensSone';
@@ -177,7 +178,8 @@ class Routes extends Component {
                         titleStyle={styles.title}
                         leftButtonTextStyle={styles.btLeft}
                         backButtonTintColor='white'
-                        getTitle={() => this.props.title}  
+                        getTitle={() => this.props.title}
+                        renderRightButton={() => <DocumentoAllCheck />}  
                     />
                     <Scene 
                         key='documentoBonyApp'

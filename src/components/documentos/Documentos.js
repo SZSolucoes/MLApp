@@ -44,6 +44,7 @@ import checkLarge from '../../../resources/imgs/checklarge.png';
 import aproversLarge from '../../../resources/imgs/aproverslarge.png';
 import genericIcon from '../../../resources/imgs/intlistlarge.png';
 import arrowRight from '../../../resources/imgs/arrowright.png';
+import DocumentosErrorAppr from './DocumentosErrorAppr';
 
 class Documentos extends Component {
 
@@ -442,6 +443,7 @@ class Documentos extends Component {
                                 color={'#f16636'}
                            />
                         </Dialog>
+                        <DocumentosErrorAppr />
                     </View>
                 </ScrollView>
             </PTRView>
